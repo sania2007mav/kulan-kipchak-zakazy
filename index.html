@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Заказы покупателя — Кулан Кыпшак</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c241c;
+      --muted: #5a6558;
+      --line: #d5ddd2;
+      --paper: #f3f0e8;
+      --card: #fffdf8;
+      --accent: #2f6b4f;
+      --accent-soft: #e4f0e8;
+      --warn: #b8860b;
+      --warn-soft: #f7efd6;
+      --hot: #9a3b2f;
+      --hot-soft: #f3e2df;
+      --ok: #2f6b4f;
+      --shadow: 0 18px 40px rgba(28, 36, 28, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e8efe4 0%, transparent 55%),
+        radial-gradient(900px 420px at 100% 0%, #efe6d4 0%, transparent 50%),
+        var(--paper);
+      font-family: Manrope, system-ui, sans-serif;
+      line-height: 1.55;
+    }
+
+    .wrap {
+      width: min(980px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    header.hero {
+      padding: 4.5rem 0 3rem;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.85rem;
+    }
+
+    h1 {
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(2rem, 4.5vw, 3.1rem);
+      line-height: 1.15;
+      margin: 0 0 1rem;
+      max-width: 16ch;
+    }
+
+    .lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 42rem;
+      margin: 0 0 1.75rem;
+    }
+
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 999px;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    section {
+      padding: 2.25rem 0;
+    }
+
+    h2 {
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 1.65rem;
+      margin: 0 0 0.75rem;
+      font-weight: 600;
+    }
+
+    h3 {
+      margin: 0 0 0.4rem;
+      font-size: 1.05rem;
+    }
+
+    p { margin: 0 0 1rem; color: var(--muted); }
+    .ink { color: var(--ink); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.35rem 1.4rem;
+      box-shadow: var(--shadow);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 800px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.1rem;
+    }
+
+    @media (max-width: 700px) {
+      .flow { grid-template-columns: 1fr; }
+    }
+
+    .step {
+      background: var(--accent-soft);
+      border-radius: 14px;
+      padding: 1rem 1.05rem;
+      border: 1px solid #c9ddd0;
+    }
+
+    .step .n {
+      font-weight: 800;
+      color: var(--accent);
+      font-size: 0.85rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .step p { margin: 0; font-size: 0.95rem; color: var(--ink); }
+
+    /* Mock list */
+    .mock {
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .mock-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 1rem;
+      background: #f7f5ef;
+      border-bottom: 1px solid var(--line);
+      font-weight: 700;
+    }
+
+    .mock-head span {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    table.list {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    table.list th,
+    table.list td {
+      padding: 0.75rem 0.85rem;
+      text-align: left;
+      border-bottom: 1px solid #ece7dc;
+      vertical-align: middle;
+    }
+
+    table.list th {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      background: #fbfaf6;
+    }
+
+    table.list tr:last-child td { border-bottom: 0; }
+
+    .bar-cell {
+      min-width: 140px;
+    }
+
+    .bar {
+      position: relative;
+      height: 22px;
+      border-radius: 7px;
+      background: #ece8de;
+      overflow: hidden;
+    }
+
+    .bar > i {
+      display: block;
+      height: 100%;
+      border-radius: 7px;
+    }
+
+    .bar > b {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .p20 > i { width: 20%; background: linear-gradient(90deg, #c45a4a, #d97a55); }
+    .p65 > i { width: 65%; background: linear-gradient(90deg, #c9a227, #e0c35a); }
+    .p100 > i { width: 100%; background: linear-gradient(90deg, #2f6b4f, #4f9470); }
+    .p100 > b { color: #fff; }
+
+    .tag {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .tag.part { background: var(--warn-soft); color: #7a5a08; }
+    .tag.done { background: var(--accent-soft); color: var(--accent); }
+    .tag.open { background: var(--hot-soft); color: var(--hot); }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 700px) {
+      .split { grid-template-columns: 1fr; }
+    }
+
+    .yes, .no {
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      border: 1px solid var(--line);
+      background: var(--card);
+    }
+
+    .yes { border-color: #b9d4c3; background: #f4faf6; }
+    .no { border-color: #e4d7cf; background: #fbf6f3; }
+
+    .yes h3 { color: var(--accent); }
+    .no h3 { color: var(--hot); }
+
+    ul.check, ul.cross {
+      margin: 0.6rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    ul.check li, ul.cross li {
+      position: relative;
+      padding: 0.35rem 0 0.35rem 1.45rem;
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    ul.check li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    ul.cross li::before {
+      content: "–";
+      position: absolute;
+      left: 0.15rem;
+      color: var(--hot);
+      font-weight: 800;
+    }
+
+    .note {
+      margin-top: 1rem;
+      padding: 1rem 1.15rem;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 0 12px 12px 0;
+      color: var(--ink);
+      font-size: 0.98rem;
+    }
+
+    footer {
+      padding: 2.5rem 0 3.5rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--line);
+      margin-top: 1rem;
+    }
+
+    .tiny { font-size: 0.88rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Кулан Кыпшак · 1С:Бухгалтерия для Казахстана</div>
+      <h1>Заказы покупателя и частичные отгрузки</h1>
+      <p class="lead">
+        Простое рабочее решение в вашей бухгалтерской базе:
+        один заказ — несколько реализаций, и сразу видно, сколько уже отгружено.
+      </p>
+      <div class="pills">
+        <span class="pill">Заказ → реализации</span>
+        <span class="pill">Остаток к отгрузке</span>
+        <span class="pill">Шкала % в списке</span>
+        <span class="pill">Без полного УНФ</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <div class="grid-2">
+        <div>
+          <h2>Как это будет работать</h2>
+          <p class="ink">
+            Менеджер оформляет <b>заказ</b> на нужное количество.
+            Потом по мере отгрузки создаёт одну или несколько <b>реализаций ТМЗ и услуг</b>
+            на часть заказа. Система считает, сколько уже ушло и сколько ещё осталось.
+          </p>
+          <div class="flow">
+            <div class="step">
+              <div class="n">Шаг 1</div>
+              <p>Заказ на 1000 шт.</p>
+            </div>
+            <div class="step">
+              <div class="n">Шаг 2</div>
+              <p>Реализация на 200 шт.</p>
+            </div>
+            <div class="step">
+              <div class="n">Шаг 3</div>
+              <p>В заказе видно: отгружено 20%, осталось 800</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Пример</h3>
+          <p style="margin-bottom:0.5rem">Заказ №12 · Клиент «Альфа»</p>
+          <p class="tiny" style="margin-bottom:0.85rem">Товар: 1000 шт. · Уже отгружено двумя реализациями: 200 + 300</p>
+          <div class="bar p65" style="height:28px;border-radius:9px;margin-bottom:0.75rem">
+            <i></i>
+            <b>50% отгружено</b>
+          </div>
+          <p class="tiny" style="margin:0">Осталось отгрузить: <b class="ink">500 шт.</b></p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Шкала в списке заказов</h2>
+      <p>
+        В списке заказов — колонка <b class="ink">«Отгружено»</b> с процентом и цветной шкалой.
+        Ячейка закрашивается по мере выполнения: мало / частично / полностью.
+        Так менеджер видит картину сразу, не открывая каждый документ.
+      </p>
+
+      <div class="mock" aria-label="Макет списка заказов">
+        <div class="mock-head">
+          Заказы покупателей
+          <span>макет интерфейса</span>
+        </div>
+        <table class="list">
+          <thead>
+            <tr>
+              <th>Номер</th>
+              <th>Покупатель</th>
+              <th>Сумма</th>
+              <th>Отгружено</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>00-000014</td>
+              <td>ТОО «Альфа»</td>
+              <td>1 250 000 ₸</td>
+              <td class="bar-cell">
+                <div class="bar p20"><i></i><b>20%</b></div>
+              </td>
+              <td><span class="tag open">В работе</span></td>
+            </tr>
+            <tr>
+              <td>00-000018</td>
+              <td>ИП Сериков</td>
+              <td>480 000 ₸</td>
+              <td class="bar-cell">
+                <div class="bar p65"><i></i><b>65%</b></div>
+              </td>
+              <td><span class="tag part">Частично</span></td>
+            </tr>
+            <tr>
+              <td>00-000021</td>
+              <td>ТОО «Бета»</td>
+              <td>96 000 ₸</td>
+              <td class="bar-cell">
+                <div class="bar p100"><i></i><b>100%</b></div>
+              </td>
+              <td><span class="tag done">Отгружен</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tiny" style="margin-top:0.75rem">
+        В 1С это делается колонкой процента и условным оформлением списка (цвет фона ячейки / полоска).
+        Визуально — как на макете выше.
+      </p>
+    </section>
+
+    <section>
+      <h2>Что входит в работу</h2>
+      <div class="split">
+        <div class="yes">
+          <h3>Делаем</h3>
+          <ul class="check">
+            <li>Документ «Заказ покупателя»</li>
+            <li>Несколько реализаций по одному заказу</li>
+            <li>Учёт: сколько заказано / отгружено / осталось</li>
+            <li>Шкала % отгрузки в списке заказов</li>
+            <li>Ввод реализации и счёта на основании заказа</li>
+            <li>Поле «Ответственный» (менеджер) на заказе</li>
+            <li>Печать / удобная форма заказа</li>
+          </ul>
+        </div>
+        <div class="no">
+          <h3>Не делаем (это уже УНФ)</h3>
+          <ul class="cross">
+            <li>Полный функционал «Управление нашей фирмой»</li>
+            <li>Сложное резервирование и обеспечение на складе</li>
+            <li>CRM, сборка, маршруты доставки, бонусы</li>
+            <li>Переделка всех типовых отчётов бухгалтерии</li>
+            <li>Производство, ремонт, комиссия «как в УНФ»</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <b>Важно.</b> Это не перенос УНФ в Бухгалтерию.
+        Берём только нужную вам связку: <b>заказ → несколько отгрузок → видно остаток</b>.
+        Так получается дешевле и проще в ежедневной работе, без лишних настроек торгового учёта.
+      </div>
+    </section>
+
+    <section>
+      <h2>Про менеджера и отчёты</h2>
+      <p>
+        На заказе будет поле <b class="ink">«Ответственный»</b> (можно подписать как «Менеджер»).
+        При создании реализации значение можно переносить автоматически.
+      </p>
+      <p>
+        Отчётность по менеджеру — отдельный понятный отчёт и отборы в списке.
+        Типовые бухгалтерские отчёты (ОСВ, НДС и т.п.) не переделываем:
+        там другая аналитика, и это сильно удорожает проект без необходимости.
+      </p>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2 style="margin-bottom:0.5rem">Итог одной фразой</h2>
+        <p class="ink" style="font-size:1.1rem;margin:0">
+          Рабочий заказ в Бухгалтерии КЗ: частичные отгрузки, остаток к отгрузке
+          и цветная шкала в списке — без покупки и внедрения полного УНФ.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Материал для согласования объёма работ · Кулан Кыпшак · 2026
+    </div>
+  </footer>
+</body>
+</html>
